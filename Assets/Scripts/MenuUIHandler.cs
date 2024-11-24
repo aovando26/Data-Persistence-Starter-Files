@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -10,13 +8,15 @@ using TMPro;
 using UnityEditor;
 #endif
 
-
+[DefaultExecutionOrder(1000)]
 public class MenuUIHandler : MonoBehaviour
 {
     public Button startButton;
     public Button quitButton;
     public TMP_InputField nameInputField;
-    public TextMeshProUGUI placeHolderText; 
+    public TextMeshProUGUI placeHolderText;
+    public TextMeshProUGUI bestPlayer;
+    public TextMeshProUGUI bestScore;
 
     // Start is called before the first frame update
     void Start()
@@ -26,13 +26,15 @@ public class MenuUIHandler : MonoBehaviour
 
         // listener
         nameInputField.onEndEdit.AddListener(GameManager.Instance.SubmitName);
+
+        DisplayBestPlayer();
     }
 
     private void LoadMainScene()
     {
         if (string.IsNullOrWhiteSpace(nameInputField.text))
         {
-            Debug.Log("Please enter your name");
+            //Debug.Log("Please enter your name");
             // change and and font to bold
             placeHolderText.color = Color.red;
 
@@ -61,5 +63,12 @@ public class MenuUIHandler : MonoBehaviour
     void Update()
     {
         
+    }
+
+    private void DisplayBestPlayer()
+    {
+        GameManager.Instance.LoadBest();
+        Debug.Log($"Player Name: {GameManager.Instance.bestPlayer}");
+        Debug.Log($"Player Score: {GameManager.Instance.bestScore}");
     }
 }

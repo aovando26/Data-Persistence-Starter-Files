@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing.Text;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -14,6 +15,7 @@ public class MainManager : MonoBehaviour
     public Text ScoreText;
     public GameObject GameOverText;
     public Text NameText;
+    public Text BestScoreText; 
 
     private bool m_Started = false;
     private int m_Points;
@@ -24,7 +26,7 @@ public class MainManager : MonoBehaviour
     void Start()
     {
 
-        NameText.text = $"Player: {GameManager.Instance.playerName}";
+        NameText.text = $"Player: {GameManager.Instance.bestPlayer}";
 
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
@@ -75,6 +77,21 @@ public class MainManager : MonoBehaviour
     public void GameOver()
     {
         m_GameOver = true;
+        BestScoreText.text = $"Best Score: {GetScore()}";
+        GameManager.Instance.SaveBest();
         GameOverText.SetActive(true);
+    }
+
+    public int GetScore()
+    {
+        GameManager.Instance.bestScore = m_Points;
+
+        return GameManager.Instance.bestScore;
+    }
+
+    public string GetBestPlayer()
+    {
+        GameManager.Instance.bestPlayer = NameText.text;
+        return GameManager.Instance.bestPlayer;
     }
 }
