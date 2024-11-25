@@ -89,6 +89,13 @@ public class MainManager : MonoBehaviour
         return GameManager.Instance.bestScore;
     }
 
+    // compare the current score to the previous score (bestscore) loaded (if any) 
+    // if the current score is greater than the previous score
+    // then have the currentscore become the best score 
+    // otherwise leave the previous score as the best score
+
+
+
     public string GetBestPlayer()
     {
         GameManager.Instance.bestPlayer = NameText.text;

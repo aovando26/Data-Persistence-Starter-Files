@@ -68,7 +68,11 @@ public class MenuUIHandler : MonoBehaviour
     private void DisplayBestPlayer()
     {
         GameManager.Instance.LoadBest();
-        Debug.Log($"Player Name: {GameManager.Instance.bestPlayer}");
-        Debug.Log($"Player Score: {GameManager.Instance.bestScore}");
+
+        //Debug.Log($"Player Name: {GameManager.Instance.bestPlayer}");
+        bestPlayer.text = $"Player Name: {GameManager.Instance.bestPlayer}";
+
+        //Debug.Log($"Player Score: {GameManager.Instance.bestScore}");
+        bestScore.text = $"Player Score: {GameManager.Instance.bestScore.ToString()}";
     }
 }
