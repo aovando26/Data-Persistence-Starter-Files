@@ -4,6 +4,7 @@ using System.Drawing.Text;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class MainManager : MonoBehaviour
@@ -21,13 +22,16 @@ public class MainManager : MonoBehaviour
     private int m_Points;
 
     private bool m_GameOver = false;
+    public static int bestScore;
+    public string userName;
 
     // Start is called before the first frame update
     void Start()
     {
 
-        NameText.text = $"Player: {GameManager.Instance.bestPlayer}";
-
+        //NameText.text = $"Player: {GameManager.Instance.bestPlayer}";
+        userName = GameManager.Instance.playerName;
+        NameText.text = $"Player: {userName}";
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
 
@@ -78,27 +82,33 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         BestScoreText.text = $"Best Score: {GetScore()}";
-        GameManager.Instance.SaveBest();
+
+        CheckBestPlayer(); 
         GameOverText.SetActive(true);
     }
 
-    public int GetScore()
+    private int GetScore()
     {
-        GameManager.Instance.bestScore = m_Points;
+        int endingScore = m_Points;
+        return endingScore;
+    }
 
-        return GameManager.Instance.bestScore;
+    public void CheckBestPlayer()
+    {
+        // IF PLAYER BEATS HIGH SCORE, SAVE THEIR NAME
+        if (m_Points > GameManager.Instance.bestScore)
+        {
+            GameManager.Instance.bestScore = GetScore();
+            GameManager.Instance.bestPlayer = GameManager.Instance.playerName;
+
+            GameManager.Instance.SaveBest(GameManager.Instance.bestPlayer, GameManager.Instance.bestScore);
+
+            Debug.Log("New High Score: " + GameManager.Instance.bestScore);
+        }
     }
 
     // compare the current score to the previous score (bestscore) loaded (if any) 
     // if the current score is greater than the previous score
     // then have the currentscore become the best score 
     // otherwise leave the previous score as the best score
-
-
-
-    public string GetBestPlayer()
-    {
-        GameManager.Instance.bestPlayer = NameText.text;
-        return GameManager.Instance.bestPlayer;
-    }
 }

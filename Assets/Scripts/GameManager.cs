@@ -6,7 +6,11 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    //public string playerName;
+    // starting player - current
+    public string playerName;
+    public int score; 
+
+    // high score user info 
     public string bestPlayer;
     public int bestScore; 
 
@@ -36,7 +40,7 @@ public class GameManager : MonoBehaviour
     }
     public void SubmitName(string args)
     {
-        bestPlayer = args;
+        playerName = args;
     }
 
     [System.Serializable]
@@ -46,12 +50,12 @@ public class GameManager : MonoBehaviour
         public int bestScore;
     }
 
-    public void SaveBest()
+    public void SaveBest(string playerName, int score)
     {
         SaveData data = new SaveData();
 
-        data.bestPlayer = bestPlayer;
-        data.bestScore = bestScore;
+        data.bestPlayer = playerName;
+        data.bestScore = score;
 
         // transform instance to JSON 
         string json = JsonUtility.ToJson(data);
@@ -74,6 +78,10 @@ public class GameManager : MonoBehaviour
             // set playerbest 
             bestPlayer = data.bestPlayer;
             bestScore = data.bestScore;
+        }
+        else
+        {
+            Debug.LogWarning("Unable to locate file");
         }
     }
 }
