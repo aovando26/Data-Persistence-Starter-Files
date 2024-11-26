@@ -69,10 +69,10 @@ public class MenuUIHandler : MonoBehaviour
     {
         GameManager.Instance.LoadBest();
 
-        Debug.Log($"Player Name: {GameManager.Instance.bestPlayer}");
+        //Debug.Log($"Player Name: {GameManager.Instance.bestPlayer}");
         bestPlayer.text = $"Player Name: {GameManager.Instance.bestPlayer}";
 
-        Debug.Log($"Player Score: {GameManager.Instance.bestScore}");
+        //Debug.Log($"Player Score: {GameManager.Instance.bestScore}");
         bestScore.text = $"Player Score: {GameManager.Instance.bestScore}";
     }
 }

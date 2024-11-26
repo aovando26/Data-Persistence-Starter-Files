@@ -28,8 +28,6 @@ public class MainManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-        //NameText.text = $"Player: {GameManager.Instance.bestPlayer}";
         userName = GameManager.Instance.playerName;
         NameText.text = $"Player: {userName}";
         const float step = 0.6f;
@@ -81,8 +79,6 @@ public class MainManager : MonoBehaviour
     public void GameOver()
     {
         m_GameOver = true;
-        BestScoreText.text = $"Best Score: {GetScore()}";
-
         CheckBestPlayer(); 
         GameOverText.SetActive(true);
     }
@@ -93,9 +89,15 @@ public class MainManager : MonoBehaviour
         return endingScore;
     }
 
+
+    // compare the current score to the previous score (bestscore) loaded (if any) 
+    // if the current score is greater than the previous score
+    // then have the currentscore become the best score 
+    // otherwise leave the previous score as the best score
     public void CheckBestPlayer()
     {
         // IF PLAYER BEATS HIGH SCORE, SAVE THEIR NAME
+        // DEFAULT VALUE OF INSTANCE IS 0
         if (m_Points > GameManager.Instance.bestScore)
         {
             GameManager.Instance.bestScore = GetScore();
@@ -103,12 +105,8 @@ public class MainManager : MonoBehaviour
 
             GameManager.Instance.SaveBest(GameManager.Instance.bestPlayer, GameManager.Instance.bestScore);
 
+            BestScoreText.text = $"Best Score: {GameManager.Instance.bestScore}";
             Debug.Log("New High Score: " + GameManager.Instance.bestScore);
         }
     }
-
-    // compare the current score to the previous score (bestscore) loaded (if any) 
-    // if the current score is greater than the previous score
-    // then have the currentscore become the best score 
-    // otherwise leave the previous score as the best score
 }

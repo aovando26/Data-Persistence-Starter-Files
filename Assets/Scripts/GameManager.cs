@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -61,7 +62,14 @@ public class GameManager : MonoBehaviour
         string json = JsonUtility.ToJson(data);
 
         // write string to a file 
-        File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+        try
+        {
+            File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Failed to save data: {e.Message}");
+        }
     }
 
     public void LoadBest()
@@ -69,7 +77,7 @@ public class GameManager : MonoBehaviour
         string path = Application.persistentDataPath + "/savefile.json";
         if (File.Exists(path))
         {
-            // read content 
+            // READ CONTENT
             string json = File.ReadAllText(path);
 
             // transform it back into SaveData instance
